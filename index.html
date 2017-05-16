@@ -12,12 +12,23 @@
 <body>
 <!--v-on:dblclick.ctrl="addNote"-->
 <div class="el"v-on:dblclick="addNote" @mousemove.stop="mv"@mouseup="mu" @keyup.delete>
-    <div class="header"></div>
+    <div class="header">
+        {{title|format}}
+    </div>
+    <div class="wrap">
+        <input type="text"v-model="q"placeholder="古文欣赏！">
+        <div class="talk">{{anser}}</div>
+    </div>
     <div class="content">
+        <div v-if="!notes.length"class="prompt">
+            这里是空的~ </br>
+            双击添加便签</br>
+            X或键盘Backspace可删除当前选中的便签</br>
+        </div>
         <!--note {v.them}-->
-        <div :class="`note ${v.them} ${moving.index==i?'active':''}`"  :key="v.id"
+        <div  :class="`note ${v.them} ${moving.index==i?'active':''}`"  :key="v.id"
              v-for="(v,i) in notes" v-bind="{style:`top:${v.top}px;left:${v.left}px;z-index:${v.zindex}`}">
-            <h3 class="title"@mousedown.prevent.stop="md(i,$event)">{{v.title}}
+            <h3 class="title"@mousedown.prevent.stop="md(i,$event)">{{v.title|format}}
             <span class="close" @click.stop="close(i)">X</span>
             </h3>
             <div class="contents">

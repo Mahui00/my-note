@@ -1,9 +1,43 @@
 var color=['red','blue','green','pink'];
+var s=`寒蝉凄切， 对长亭晚， 骤雨初歇。
+都门帐饮无绪， 留恋处， 兰舟催发。
+执手相看泪眼， 竟无语凝噎。
+念去去， 千里烟波， 暮霭沉沉楚天阔。
+多情自古伤离别， 更那堪， 冷落清秋节！
+今宵酒醒何处？ 杨柳岸， 晓风残月。
+此去经年， 应是良辰好景虚设。
+便纵有千种风情， 更与何人说？`;
+var arr=s.split(/[；。，？：！]/);
+// console.log(arr);
 var app = new Vue({
+    watch:{
+      notes:function () {
+          this.save();
+      }  ,
+        q:function (newq) {
+            if(newq.endsWith('！')||newq.endsWith('!')){
+                this.anser=arr[Math.floor(Math.random()*arr.length)]
+            }
+        },
+    },
+    filters:{
+        format:title=>{
+            let date=new Date();
+            return `${title} ${[
+                date.getFullYear(),
+                date.getMonth()+1,
+                date.getDate()
+            ].join('-')}`
+        }
+    }
+    ,
     el:'.el',
     data:{
+        title:'my-note',
+        q:'',
+        anser:'',
         notes:[
-            {id:1,title:'便签1',content:'',top:10,left:120,them:'red',zindex:0},
+            // {id:1,title:'便签1',content:'',top:10,left:120,them:'red',zindex:0},
             // {id:2,title:'便签2',content:'',top:10,left:420,them:'blue'},
             // {id:3,title:'便签3',content:'',top:320,left:120,them:'green'},
             // {id:4,title:'便签4',content:'',top:320,left:420,them:'pink'},
@@ -11,6 +45,7 @@ var app = new Vue({
         moving:{state:false,index:null,position:{},zindex:0}
     },
     methods:{
+
         addNote:function (e) {        //在哪双击在哪增加
             var id = this.notes.length ?
                 (this.notes[this.notes.length - 1].id + 1) : 1;
